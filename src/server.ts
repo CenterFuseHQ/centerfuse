@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { PRODUCTS, resolveProductUrls } from "@centerfuse/config";
 import { renderCenterFuseHome, renderCenterFuseState } from "./page.js";
-const urls = resolveProductUrls(process.env); const port = Number(process.env.PORT ?? PRODUCTS.CENTERFUSE.defaultPort);
+const urls = resolveProductUrls(process.env); const port = Number(process.env.PORT ?? PRODUCTS.CENTERFUSE.defaultPort); const host = process.env.HOST ?? "127.0.0.1";
 createServer((request, response) => {
   try {
     const pathname = new URL(request.url ?? "/", urls.CENTERFUSE).pathname;
@@ -10,5 +10,5 @@ createServer((request, response) => {
     if (pathname === "/loading") return send(response, 200, renderCenterFuseState("loading", urls));
     return send(response, 404, renderCenterFuseState("not-found", urls));
   } catch { return send(response, 500, renderCenterFuseState("error", urls)); }
-}).listen(port, "127.0.0.1", () => console.info(JSON.stringify({ event: "app.started", product: "CENTERFUSE", port })));
+}).listen(port, host, () => console.info(JSON.stringify({ event: "app.started", product: "CENTERFUSE", host, port })));
 function send(response: import("node:http").ServerResponse, status: number, body: string, type = "text/html; charset=utf-8") { response.writeHead(status, { "content-type": type, "content-security-policy": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; frame-ancestors 'none'; form-action 'self'", "referrer-policy": "strict-origin-when-cross-origin", "x-content-type-options": "nosniff", "x-frame-options": "DENY", "permissions-policy": "camera=(), microphone=(), geolocation=()" }).end(body); }
