@@ -1,1 +1,33 @@
-{"name":"@centerfuse/home","version":"0.1.0","private":true,"type":"module","scripts":{"build":"tsc -p tsconfig.json","typecheck":"tsc -p tsconfig.json --noEmit","dev":"tsx src/server.ts","start":"node dist/server.js"},"dependencies":{"@centerfuse/config":"*","@centerfuse/ui":"*"}}
+{
+  "name": "centerfuse",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "CenterFuse parent platform and product ecosystem.",
+  "workspaces": ["packages/*"],
+  "engines": { "node": ">=20.9" },
+  "scripts": {
+    "build:packages": "npm run build -w @centerfuse/config && npm run build -w @centerfuse/database && npm run build -w @centerfuse/ui",
+    "build": "npm run build:packages && tsc -p tsconfig.json",
+    "typecheck": "npm run build:packages && tsc -p tsconfig.json --noEmit && npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "test": "npm run build:packages && vitest run",
+    "check": "npm run typecheck && npm run lint && npm test && npm run build",
+    "dev": "tsx src/server.ts",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@centerfuse/config": "*",
+    "@centerfuse/ui": "*"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1",
+    "vitest": "^4.0.15"
+  }
+}
