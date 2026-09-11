@@ -28,6 +28,8 @@ npm run dev
 
 CenterFuse listens on `http://localhost:3000` by default. `SELLFUSE_URL` and `BUYFUSE_URL` configure links to the separately deployed sibling products.
 
+The unauthenticated `GET /health` endpoint reports parent-site liveness without exposing product data.
+
 ## Build and tests
 
 ```bash

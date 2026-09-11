@@ -5,6 +5,7 @@ const urls = resolveProductUrls(process.env); const port = Number(process.env.PO
 createServer((request, response) => {
   try {
     const pathname = new URL(request.url ?? "/", urls.CENTERFUSE).pathname;
+    if (request.method === "GET" && pathname === "/health") return send(response, 200, JSON.stringify({ status: "ok", service: "centerfuse" }), "application/json; charset=utf-8");
     if (pathname === "/manifest.webmanifest") return send(response, 200, JSON.stringify({ name: "CenterFuse", short_name: "CenterFuse", display: "standalone", theme_color: PRODUCTS.CENTERFUSE.themeColor, background_color: "#f6f4ee", start_url: "/" }), "application/manifest+json");
     if (pathname === "/") return send(response, 200, renderCenterFuseHome(urls));
     if (pathname === "/loading") return send(response, 200, renderCenterFuseState("loading", urls));
