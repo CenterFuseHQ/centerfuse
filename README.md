@@ -1,6 +1,5 @@
 # CenterFuse
-
-CenterFuse is the umbrella platform and product ecosystem for two focused sibling products:
+CenterFuse is the canonical application source for the umbrella platform and product ecosystem for two focused sibling products:
 
 ```text
 CenterFuse
@@ -10,9 +9,9 @@ CenterFuse
 
 The products share a visible ecosystem, but their source code is maintained in independent repositories:
 
-- [CenterFuseHQ/centerfuse](https://github.com/CenterFuseHQ/centerfuse)
-- [CenterFuseHQ/sellfuse](https://github.com/CenterFuseHQ/sellfuse)
-- [CenterFuseHQ/buyfuse](https://github.com/CenterFuseHQ/buyfuse)
+- [nnabdelshahid/CenterFuse](https://github.com/nnabdelshahid/CenterFuse)
+- [nnabdelshahid/SellFuse](https://github.com/nnabdelshahid/SellFuse)
+- [nnabdelshahid/BuyFuse](https://github.com/nnabdelshahid/BuyFuse)
 
 This repository contains only the CenterFuse parent site, its small local design/configuration packages, and the single additive migration that records cross-product database ownership. It does not contain the SellFuse or BuyFuse application source trees.
 
