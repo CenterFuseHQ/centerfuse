@@ -16,12 +16,14 @@ export function familyStyles(product: ProductMetadata): string {
 }
 
 export function renderFamilyHeader(current: ProductId, urls: ProductUrls): string {
-  const links = (Object.keys(PRODUCTS) as ProductId[]).map((id) => `<a href="${escapeHtml(urls[id])}"${id === current ? ' aria-current="page"' : ""}>${PRODUCTS[id].name}</a>`).join("");
-  return `<a class="skip-link" href="#main">Skip to content</a><header class="shell family-nav"><a class="brand" href="${escapeHtml(urls.CENTERFUSE)}">Center<span>Fuse</span></a><nav class="nav-links" aria-label="CenterFuse products">${links}</nav></header>`;
+  const links = (Object.keys(PRODUCTS) as ProductId[]).filter((id) => urls[id]).map((id) => `<a href="${escapeHtml(urls[id])}"${id === current ? ' aria-current="page"' : ""}>${PRODUCTS[id].name}</a>`).join("");
+  const brandHref = urls.CENTERFUSE || "#main";
+  return `<a class="skip-link" href="#main">Skip to content</a><header class="shell family-nav"><a class="brand" href="${escapeHtml(brandHref)}">Center<span>Fuse</span></a><nav class="nav-links" aria-label="CenterFuse products">${links}</nav></header>`;
 }
 
 export function renderFamilyFooter(urls: ProductUrls): string {
-  return `<footer class="family-footer"><div class="shell row"><strong>CenterFuse</strong><span>Practical tools for buying and selling.</span><a href="${escapeHtml(urls.SELLFUSE)}">SellFuse</a><a href="${escapeHtml(urls.BUYFUSE)}">BuyFuse</a></div></footer>`;
+  const links = ([("SELLFUSE" as ProductId), ("BUYFUSE" as ProductId)]).filter((id) => urls[id]).map((id) => `<a href="${escapeHtml(urls[id])}">${PRODUCTS[id].name}</a>`).join("");
+  return `<footer class="family-footer"><div class="shell row"><strong>CenterFuse</strong><span>Practical tools for buying and selling.</span>${links}</div></footer>`;
 }
 
 export function renderState(kind: "loading" | "empty" | "error", title: string, detail: string): string {
