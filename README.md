@@ -1,4 +1,9 @@
 # CenterFuse
+
+## Live Web App
+
+🌐 **Live:** https://centerfuse.vercel.app
+
 CenterFuse is the canonical application source for the umbrella platform and product ecosystem for two focused sibling products:
 
 ```text
