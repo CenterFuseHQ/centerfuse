@@ -41,3 +41,7 @@ npm run build
 ## Database ownership
 
 `packages/database/migrations` is the sole owner of the current additive cross-product PostgreSQL foundation migration. The migration creates explicit `centerfuse`, `sellfuse`, and `buyfuse` schemas and must be applied once by the platform migration process. The applications currently use in-memory development adapters; repository separation does not apply or alter a database schema.
+
+## Live Deployment
+
+**Production:** https://centerfuse.vercel.app
