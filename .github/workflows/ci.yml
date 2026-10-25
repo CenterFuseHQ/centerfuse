@@ -22,3 +22,27 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
+      - name: Smoke test homepage and isolated demo over HTTP
+        shell: bash
+        run: |
+          PORT=43128 HOST=127.0.0.1 npm start &
+          APP_PID=$!
+          trap 'kill "$APP_PID" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:43128/health > /tmp/cf-health 2>/dev/null; then break; fi
+            sleep 1
+          done
+          grep -q '"status":"ok"' /tmp/cf-health
+          curl -fsS http://127.0.0.1:43128/ > /tmp/cf-home
+          grep -q 'Try guided demo' /tmp/cf-home
+          curl -fsS http://127.0.0.1:43128/demo > /tmp/cf-demo
+          grep -q 'Isolated demo' /tmp/cf-demo
+          curl -fsS -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
+            -d 'track=buyer&title=Desk+lamp&status=PURCHASED' \
+            http://127.0.0.1:43128/demo > /tmp/cf-buyer
+          grep -q 'Your sample saved-item preview' /tmp/cf-buyer
+          curl -fsS -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
+            -d 'track=seller&title=Running+shoes&condition=Used+-+good' \
+            http://127.0.0.1:43128/demo > /tmp/cf-seller
+          grep -q 'Your sample listing outline' /tmp/cf-seller
+          grep -q 'No photo analysis, pricing' /tmp/cf-seller
