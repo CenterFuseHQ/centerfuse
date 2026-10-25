@@ -5,7 +5,7 @@ import { renderCenterFuseHome, renderCenterFuseState } from "./page.js";
 describe("CenterFuse redesigned parent site", () => {
   it("renders accessible product discovery, journeys, a safe demo entry and responsive theme controls", () => {
     const html = renderCenterFuseHome();
-    expect(html).toContain("<main id=\"main\"");
+    expect(html).toContain('<main id="main"');
     expect(html).toContain('id="welcome-title"');
     expect(html).toContain('id="products"');
     expect(html).toContain('id="journeys"');
@@ -14,7 +14,7 @@ describe("CenterFuse redesigned parent site", () => {
     expect(html).toContain("prefers-reduced-motion");
     expect(html).toContain("BuyFuse");
     expect(html).toContain("SellFuse");
-    expect(html).toContain("Simulated");
+    expect(html).toContain("Try guided demo");
   });
 
   it("handles unconfigured product links without inventing live connections", () => {
