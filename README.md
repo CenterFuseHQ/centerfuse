@@ -14,9 +14,9 @@ CenterFuse
 
 The products share a visible ecosystem, but their source code is maintained in independent repositories:
 
-- [nnabdelshahid/CenterFuse](https://github.com/nnabdelshahid/CenterFuse)
-- [nnabdelshahid/SellFuse](https://github.com/nnabdelshahid/SellFuse)
-- [nnabdelshahid/BuyFuse](https://github.com/nnabdelshahid/BuyFuse)
+- [CenterFuseHQ/centerfuse](https://github.com/CenterFuseHQ/centerfuse)
+- [CenterFuseHQ/sellfuse](https://github.com/CenterFuseHQ/sellfuse)
+- [CenterFuseHQ/buyfuse](https://github.com/CenterFuseHQ/buyfuse)
 
 This repository contains only the CenterFuse parent site, its small local design/configuration packages, and the single additive migration that records cross-product database ownership. It does not contain the SellFuse or BuyFuse application source trees.
 
@@ -33,6 +33,7 @@ npm run dev
 CenterFuse listens on `http://localhost:3000` by default. `SELLFUSE_URL` and `BUYFUSE_URL` configure links to the separately deployed sibling products.
 
 The unauthenticated `GET /health` endpoint reports parent-site liveness without exposing product data.
+The versioned, read-only `GET /api/v1/products` endpoint discovers the configured BuyFuse and SellFuse URLs and reports whether each public web service answers its expected liveness check. It contains no account, listing, or tenant data.
 
 ## Build and tests
 
