@@ -78,16 +78,23 @@ async function handle(
   }
 }
 
-export function createCenterFuseServer(options: CenterFuseServerOptions = {}): Server {
+export function createCenterFuseHandler(options: CenterFuseServerOptions = {}) {
   const urls = options.urls ?? resolveProductUrls(process.env);
   const discover = options.discover ?? createProductDiscovery(urls);
-  return createServer((request, response) => {
+  return (request: IncomingMessage, response: ServerResponse) => {
     void handle(request, response, urls, discover).catch(() => {
       if (!response.headersSent) send(response, 500, renderCenterFuseState("error", urls));
       else response.destroy();
     });
-  });
+  };
 }
+
+export function createCenterFuseServer(options: CenterFuseServerOptions = {}): Server {
+  return createServer(createCenterFuseHandler(options));
+}
+
+const vercelHandler = createCenterFuseHandler();
+export default vercelHandler;
 
 function send(
   response: ServerResponse,
@@ -108,7 +115,11 @@ function send(
   }).end(body);
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
+if (
+  process.env.VERCEL !== "1" &&
+  process.argv[1] &&
+  fileURLToPath(import.meta.url) === resolve(process.argv[1])
+) {
   const urls = resolveProductUrls(process.env);
   const port = Number(process.env.PORT ?? PRODUCTS.CENTERFUSE.defaultPort);
   const host = process.env.HOST ?? "127.0.0.1";

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Server } from "node:http";
+import { createServer, type Server } from "node:http";
 import { resolveProductUrls } from "@centerfuse/config";
-import { createCenterFuseServer } from "./server.js";
+import vercelHandler, { createCenterFuseServer } from "./server.js";
 
 const servers: Server[] = [];
 
@@ -28,6 +28,15 @@ async function startServer(server: Server): Promise<string> {
 }
 
 describe("CenterFuse HTTP product discovery contract", () => {
+  it("exports a Vercel-compatible handler for the same HTTP routes", async () => {
+    const baseUrl = await startServer(createServer(vercelHandler));
+
+    const response = await fetch(`${baseUrl}/health`);
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ status: "ok", service: "centerfuse" });
+  });
+
   it("serves the versioned public directory with caching and CORS", async () => {
     const directory = {
       schemaVersion: 1 as const,
